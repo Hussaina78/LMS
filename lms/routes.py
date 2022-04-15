@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request ,send_from_directory,make_response,jsonify
 from lms import app,db,bcrypt
 from .forms import Logininstructor, Registration,Login,Registerinstructor
-from .models import User
+from .models import User, Courses
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import array, os, json
@@ -15,6 +15,24 @@ def home():
 def dashboard():
     if current_user.is_authenticated:
         return render_template('dashboard/index.html')
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/courses')
+def courses():
+    if current_user.is_authenticated:
+        courses = Courses.query.all()
+        print(courses)
+        return render_template('dashboard/courses.html',data=courses)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/resources')
+def resources():
+    if current_user.is_authenticated:
+        resources = Resources.query.all()
+        print(resources)
+        return render_template('dashboard/resources.html')
     else:
         return redirect(url_for('login'))
 
@@ -36,6 +54,7 @@ def instructordashboard():
 
 
 
+
 @app.route('/register', methods=['GET' ,'POST'])
 def register():
     register = Registration()
@@ -46,12 +65,11 @@ def register():
         email = request.form['email']
         password = request.form['password']
         password1 = request.form['confirmpassword']
-        print(User.query.filter_by(email=email).first().email)
-        if User.query.filter_by(email=email).first().email == email:
+        if User.query.filter_by(email=email).first():
             flash('Email Address already Exists', 'danger')
         else:
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-            user = User(name=name.lower(),email=email.lower(),password=hashed_password)
+            user = User(name=name.lower(),email=email.lower(),password=hashed_password,email_preference = 'yes')
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
@@ -77,7 +95,14 @@ def login():
             if current_user.role== "user":
               #  next_page = request.args.get('next')#requests current url and redirects to next page otherwise it returns to the dashboard
                 return redirect(url_for('dashboard'))
+            elif current_user.role== "instructor":
+              #  next_page = request.args.get('next')#requests current url and redirects to next page otherwise it returns to the dashboard
+                return redirect(url_for('instructordashboard'))
+            elif current_user.role== "admin":
+              #  next_page = request.args.get('next')#requests current url and redirects to next page otherwise it returns to the dashboard
+                return redirect(url_for('admindashboard'))
         else:
+          
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html',form = form)
 
@@ -99,7 +124,14 @@ def logininstructor():
             if user and bcrypt.check_password_hash(user.password, password):
                 login_user(user, remember=remember)
                 if current_user.role== "user":
-                    return redirect(url_for(instructordashboard))
+                #  next_page = request.args.get('next')#requests current url and redirects to next page otherwise it returns to the dashboard
+                    return redirect(url_for('dashboard'))
+                elif current_user.role== "instructor":
+                #  next_page = request.args.get('next')#requests current url and redirects to next page otherwise it returns to the dashboard
+                    return redirect(url_for('instructordashboard'))
+                elif current_user.role== "admin":
+                #  next_page = request.args.get('next')#requests current url and redirects to next page otherwise it returns to the dashboard
+                    return redirect(url_for('admindashboard'))
             else:
                 flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('logininstructor.html',form = form)
@@ -130,7 +162,7 @@ def registerinstructor():
             flash('Email Address already Exists', 'danger')
         else:
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-            user = User(name=username.lower(),email=email.lower(),password=hashed_password)
+            user = User(name=username.lower(),email=email.lower(),password=hashed_password,role='instructor')
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('instructordashboard'))
