@@ -18,7 +18,9 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
 </head>
-
+<style type="text/css">
+   
+</style>
 <body>
     <i class="icon-bars"></i>
     <nav>
@@ -26,10 +28,11 @@
         <br>
         <br>
         <ul>
-            <li ><a href="/dashboard"><i class="icon-dashboard"></i><span> Dashboard</span> </a></li>
-            <li> <a href="/courses"> <i class="icon-globe"></i> <span> Courses </span> </a></li>
-            <li class="<active"><a href="/resources"> <i class="icon-hdd-o"></i> <span> Resources </span> </a></li>
-            <li><a href="challenge.php"> <i class="icon-child"></i> <span> Challenge </span> </a></li>
+            <li><a href="/dashboard"><i class="icon-dashboard"></i><span> Dashboard</span> </a></li>
+            <li><a href="/courses"> <i class="icon-globe"></i> <span> Courses </span> </a></li>
+            <li><a href="/resources"> <i class="icon-hdd-o"></i> <span> Resources </span> </a></li>
+            <li class="active"><a href="/challenge"><i class ="icon-bell"></i> <span> Challenge </span> </a></li>
+            <li><a href="/"> <i class="icon-child"></i> <span> Chat </span> </a></li>
             <li><a href="Q&A.php"> <i class="icon-square"> </i><span> Q and A </span> </a></li>
             <li><a href="settings.php"> <i class="icon-gears"> </i> <span> Settings </span> </a></li>
             <li><a href="/logout"> <i class="icon-power-off"> </i> <span> Log out </span> </a></li>
@@ -42,31 +45,19 @@
     </nav>
     <main>
         <div class="intro-div">
-            <b>Resources</b>
+            <b>Dashboard</b>
             <span id="time" class="time"></span>
         </div>
         <br>
-        <div style="display: flex;justify-content: space-between;align-items: center;">
-
-            <h5> Categories </h5>
-       
-            <a href= "#" class="btn btn-primary">View Resources</a>
-            
-        </div>
-        <div>
-                     
-            <a class="btn btn-primary" href="/resources" role="button">Resources</a>
-            <a class="btn btn-primary" href="#" role="button">Downloads</a>
-            <a class="btn btn-primary" href="#" role="button">Read</a>
-            <a class="btn btn-primary" href="#" role="button">Watch</a>
-            <a class="btn btn-primary" href="#" role="button">Useful Links</a>
-            <a class="btn btn-primary" href="#" role="button">Challenge finder</a>
-            <a class="btn btn-primary" href="#" role="button">Tools</a>
-            
-
+        <div class="jumbotron">
+            <br><br>
+            <h4>Welcome back, {{current_user.name|upper}}. </h4>
+            <span>You've Learnt about 0% of your goals this week</span> <br>
+            <span>Keep it up to improve your results</span>
+            <br><br>
         </div>
        
-       
+        <header>New Challenge</header>
         
     </main>
 </body>
@@ -78,5 +69,6 @@
 <script>
     var d = new Date();
     document.getElementById("time").innerHTML = d.toDateString();
+    
 </script>
 </html>

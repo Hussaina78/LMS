@@ -31,8 +31,8 @@
             <li class="active"><a href="/dashboard"><i class="icon-dashboard"></i><span> Dashboard</span> </a></li>
             <li><a href="/courses"> <i class="icon-globe"></i> <span> Courses </span> </a></li>
             <li><a href="/resources"> <i class="icon-hdd-o"></i> <span> Resources </span> </a></li>
-            <li><a href="challenge.php"> <i class="icon-child"></i> <span> Challenge </span> </a></li>
-            <li><a href="challenge.php"> <i class="icon-child"></i> <span> Chat </span> </a></li>
+            <li><a href="/challenge"> <i class="icon-child"></i> <span> Challenge </span> </a></li>
+            <li><a href="/challenge"> <i class="icon-child"></i> <span> Chat </span> </a></li>
             <li><a href="Q&A.php"> <i class="icon-square"> </i><span> Q and A </span> </a></li>
             <li><a href="settings.php"> <i class="icon-gears"> </i> <span> Settings </span> </a></li>
             <li><a href="/logout"> <i class="icon-power-off"> </i> <span> Log out </span> </a></li>
@@ -114,9 +114,8 @@
             </div>
             </div>
         </div>-->
-        <header>My Courses</header>
+        <header></header>
 
-     
     </main>
 </body>
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
@@ -127,5 +126,6 @@
 <script>
     var d = new Date();
     document.getElementById("time").innerHTML = d.toDateString();
+    
 </script>
 </html>

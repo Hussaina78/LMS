@@ -30,9 +30,16 @@ def courses():
 @app.route('/resources')
 def resources():
     if current_user.is_authenticated:
-        resources = Resources.query.all()
-        print(resources)
-        return render_template('dashboard/resources.html')
+     
+       return render_template('dashboard/resources.html')
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/challenge')
+def challenge():
+    if current_user.is_authenticated:
+     
+        return render_template('dashboard/challenge.html')
     else:
         return redirect(url_for('login'))
 
@@ -48,7 +55,7 @@ def admindashboard():
 @login_required
 def instructordashboard():
     if current_user.is_authenticated:
-        return render_template('instructordashboard.html')
+        return render_template('instructordashboard/index.html')
     else:
         return redirect(url_for('instructorlogin'))
 

@@ -1,4 +1,4 @@
-from unicodedata import category
+from unicodedata import category, name
 from matplotlib import image
 from lms import db,login_manager,app
 from datetime import datetime
@@ -30,6 +30,17 @@ class Courses(db.Model):
     title = db.Column(db.String(120), unique=False, nullable=False)
     description = db.Column(db.String(120), unique=False, nullable=False)
     category = db.Column(db.String(120), unique=False, nullable=False)
+    duration = db.Column(db.String(120), unique=False, nullable=False)
+    instructor = db.Column(db.String(120), unique=False, nullable=False)
+    image = db.Column(db.String(120), unique=False, nullable=True)
+    def __repr__(self):
+        return f"Courses('{self.id}','{self.title}','{self.description}','{self.image}')"
+
+class Usercourse(db.Model):
+    __tablename__ = 'usercourse'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, unique=False, nullable=False)
+    course_id = db.Column(db.Integer, unique=False, nullable=False)
     duration = db.Column(db.String(120), unique=False, nullable=False)
     instructor = db.Column(db.String(120), unique=False, nullable=False)
     image = db.Column(db.String(120), unique=False, nullable=True)
